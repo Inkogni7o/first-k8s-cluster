@@ -1,0 +1,5 @@
+{{- define "test-template" }}
+  labels:
+    date: {{ now | htmlDate }}
+    version: {{ .Values.app.version }}
+{{- end }}

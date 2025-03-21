@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-config
+  {{- template "test-template" . }}
+data:
+  name: {{ .Values.app.name | upper | quote }}
+  {{- if eq .Values.env "production"}}
+  paymentToken: "1234" 
+  {{- else }}
+  paymentToken: false
+  {{- end }}
+
+  memory: {{ .Values.value.requirements.limits.memory }}
+  {{- with .Values.value.requirements.limits }}
+  memory: {{ .memory }}  
+  name: {{ $.Values.app.name | upper | quote }}
+  {{- end }}
+  
+  users: 
+    {{- range .Values.users }}
+    - {{ . }}
+    {{- end }}
+
+  users1: 
+    {{- range .Values.users1 }}
+    {{ .name }}: {{ .role}}
+    {{- end }}
+
+  {{ $map := .Release.Name | upper | quote }}
+  map: {{ $map }}
+
+  users2: 
+    {{- range $index, $user := .Values.users1 }}
+    {{ $user.name }}: {{ $user.role }} - {{ $index }}
+    {{- end }}
+  
+  users-tuple: 
+    {{- range tuple "Ivan" "Vova" }}
+    - {{ . }}
+    {{- end }}

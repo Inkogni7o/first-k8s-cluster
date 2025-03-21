@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+
+spec:
+  replicas: 1
+
+  selector: 
+    matchLabels:
+      components: backend
+  template: # перенесли часть из пода
+    metadata: 
+      labels:
+        components: backend
+    spec: 
+      containers:
+        - name: short-api
+          image: antonlarichev/short-api:v1.0
+          ports: 
+            - containerPort: 3000
+          resources: 
+            limits: 
+              memory: "500Mi" 
+              cpu: "200m" 
+          env: 
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: api-secret
+                  key: DATABASE_URL
+          volumeMounts:
+            - name: test
+              mountPath: /etc/test
+              readOnly: true
+          livenessProbe: 
+            exec:
+              command:
+                - curl
+                - --fail
+                - http://localhost:3000/api
+            initialDelaySeconds: 30 # отсрочка после запуска 
+            periodSeconds: 5 # период испускания сигнала состояния 
+            failureThreshold: 1 # сколько подряд ошибок может быть
+          
+          startupProbe: # проверка при старте приложения 
+            exec:
+              command:
+                - curl
+                - --fail
+                - http://localhost:3000/api
+            periodSeconds: 5 
+            failureThreshold: 1   
+
+          readinessProbe: # проверка по готовности приложения
+            exec:
+              command:
+                - curl
+                - --fail
+                - http://localhost:3000/api
+            initialDelaySeconds: 5  
+            periodSeconds: 5 
+      volumes:
+        - name: test
+          configMap:
+            name: demo-config
+
+# DATABASE_URL
+# postgresql://user:password@url:5432/name_db

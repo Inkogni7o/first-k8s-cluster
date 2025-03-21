@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: short-app-port
+spec:
+  type: NodePort
+  ports:
+    - port: 3000 # pod-to-pod
+      targetPort: 80 # node-port => pod
+      nodePort: 31200 # kube-proxy => Service Node-port
+  selector: 
+    components: frontend

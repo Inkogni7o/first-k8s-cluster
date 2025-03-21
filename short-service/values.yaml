@@ -1,0 +1,27 @@
+app: 
+  name: short-app
+  image: antonlarichev/short-app
+  version: v1.4
+  replicas: 1
+  components: frontend
+  port: 80
+  limits: 
+    memory: "128Mi"
+    cpu: "100m"
+
+env: production
+value: 
+  requirements:
+    limits: 
+      memory: "128Mi"
+      cpu: "100m"
+
+users: 
+  - Ivan
+  - Vova
+
+users1:
+  - name: Ivan
+    role: admin
+  - name: Vova
+    role: admin2
