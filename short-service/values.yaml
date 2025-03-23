@@ -22,11 +22,6 @@ api:
   envs: 
     - DATABASE_URL   
 
-database: 
-  user: demo
-  password: demo
-  db: demo
-
 postgres: 
   name: postgres
   image: postgres
