@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "{{ .Values.postgres.name }}-pvc"
+
+spec:
+  resources: # какие ресурсы мы запрашиваем 
+    requests:
+      storage: 1Gi
+
+  accessModes: # режимы работы с внешними инстансами
+    - ReadWriteOnce
