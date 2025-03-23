@@ -15,15 +15,15 @@ spec:
         path: "/"
         backend:
           service:
-            name: short-app-clusterip # перенаправление при попадание на /
+            name: {{ .Values.app.name }}-clusterip # перенаправление при попадание на /
             port: 
-              number: 80
+              number: {{ .Values.app.port }}
               
       - pathType: Prefix
         path: "/api"
         backend:
           service: 
-            name: api-clusterip
+            name: {{ .Values.api.name }}
             port: 
-              number: 3000
+              number: {{ .Values.api.port }}
 

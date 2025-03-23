@@ -33,7 +33,7 @@ spec:
                 - curl
                 - --fail
                 - http://localhost:3000/api
-            initialDelaySeconds: 30 # отсрочка после запуска 
+            initialDelaySeconds: 10 # отсрочка после запуска 
             periodSeconds: 5 # период испускания сигнала состояния 
             failureThreshold: 1 # сколько подряд ошибок может быть
           
@@ -54,7 +54,3 @@ spec:
                 - http://localhost:3000/api
             initialDelaySeconds: 5  
             periodSeconds: 5 
-      volumes:
-        - name: test
-          configMap:
-            name: demo-config
