@@ -27,30 +27,3 @@ spec:
             {{- $data := dict "name" $.Values.api.name "env" .}}
             {{- include "env.template" $data | indent 12}}
             {{- end }}
-          livenessProbe: 
-            exec:
-              command:
-                - curl
-                - --fail
-                - http://localhost:3000/api
-            initialDelaySeconds: 10 # отсрочка после запуска 
-            periodSeconds: 5 # период испускания сигнала состояния 
-            failureThreshold: 1 # сколько подряд ошибок может быть
-          
-          startupProbe: # проверка при старте приложения 
-            exec:
-              command:
-                - curl
-                - --fail
-                - http://localhost:3000/api
-            periodSeconds: 5 
-            failureThreshold: 1   
-
-          readinessProbe: # проверка по готовности приложения
-            exec:
-              command:
-                - curl
-                - --fail
-                - http://localhost:3000/api
-            initialDelaySeconds: 5  
-            periodSeconds: 5 

@@ -30,7 +30,7 @@ database:
 postgres: 
   name: postgres
   image: postgres
-  version: v16.0
+  version: 16.0
   components: postgres
   port: 5432
   limits: 
